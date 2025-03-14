@@ -1,16 +1,16 @@
-# Todo list Application
+# Todo List Application
 
 ### ✏️ Description
 
-this application allows user to create todo list.
+This application allows users to create a to-do list.
 
 **Application Features**
 
-- adding todo list
-- deleting list
-- editing list
-- descending the order with priority
-- check the list when user completed
+- Add items to the to-do list.
+- Delete items from the list.
+- Edit items in the list.
+- Sort items in descending order of priority.
+- Mark items as completed.
 
 ### How to Install
 
@@ -22,13 +22,13 @@ this application allows user to create todo list.
 git clone https://github.com/emirisato1003/todo-list.git
 ```
 
-- install dependencies:
+- Install dependencies:
 
 ```
 npm install
 ```
 
-### How to run the development server
+### How to Run the Development Server
 
 ---
 
