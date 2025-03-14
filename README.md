@@ -12,7 +12,7 @@ This application allows users to create a to-do list.
 - Sort items in descending order of priority.
 - Mark items as completed.
 
-### How to Install
+### 🔗 How to Install
 
 ---
 
@@ -28,7 +28,7 @@ git clone https://github.com/emirisato1003/todo-list.git
 npm install
 ```
 
-### How to Run the Development Server
+### 💻 How to Run the Development Server
 
 ---
 
