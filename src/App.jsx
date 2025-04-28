@@ -32,7 +32,7 @@ function App() {
         }
 
         const { records } = await res.json();
-
+        console.log(records);
         setTodoList(records.map(record => {
           const todo = {
             id: record.id,
@@ -57,37 +57,71 @@ function App() {
   }, []);
 
   // Part 3 --- update add new Todo functionality
-  function handleAddTodo(title) {
-    const todoTask = {
-      title: title,
-      id: Date.now(),
-      isCompleted: false
-    };
-    setTodoList([...todoList, todoTask]);
-  }
+  // function handleAddTodo(title) {
+  //   const todoTask = {
+  //     title: title,
+  //     id: Date.now(),
+  //     isCompleted: false
+  //   };
+  //   setTodoList([...todoList, todoTask]);
+  // }
 
   // --- async handleAddTodo()
-  // const handleAddTodo = async (newTodo) => {
-  //   const payload = {
-  //     records: [
-  //       {
-  //         fields: {
-  //           title: newTodo,
-  //           isCompleted: newTodo.isCompleted,
-  //         }
-  //       }
-  //     ]
-  //   };
-  //   const options = {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization: token,
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(payload)
-  //   };
+  const handleAddTodo = async (newTodo) => {
+    // console.log("Using URL:", url);
+    // console.log("Token format correct:", token.startsWith("Bearer "));
 
-  // };
+    const payload = {
+      records: [
+        {
+          fields: {
+            Title: newTodo,
+            // in the instruction, isCompleted: newTodo.isCompleted. newTodo isn't obj. it's string for title.
+            isCompleted: false,
+          }
+        }
+      ]
+    };
+
+    console.log("Sending payload:", payload);
+    const options = {
+      method: "POST",
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload)
+    };
+
+    try {
+      setIsSaving(true);
+      const res = await fetch(url, options);
+  
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+      const { records } = await res.json();
+      console.log(records);
+
+      const savedTodo = {
+        id: records[0].id,
+        title: records[0].fields.Title,
+        isCompleted: records[0].fields.isCompleted || false,
+        ...records
+      };
+      // is it for avoiding to get falsy value?
+      if (!records[0].fields.isCompleted) {
+        savedTodo.isCompleted = false;
+      }
+      setTodoList(prevList => [...prevList, savedTodo]);
+    } catch (error) {
+      console.log(error.message);
+      setErrorMessage(error.message);
+    } finally {
+      setIsSaving(false);
+    }
+
+  };
 
   function onCompleteTodo(todoId) {
     const updateTodos = todoList.map(todo => {
