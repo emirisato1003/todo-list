@@ -7,6 +7,8 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [shownError, setShownError] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -18,9 +20,7 @@ function App() {
 
       const options = {
         method: "GET",
-        // body: JSON.stringify()
         headers: {
-          // "Content-Type": "application.json",
           "Authorization": token
         }
       };
@@ -36,7 +36,7 @@ function App() {
         setTodoList(records.map(record => {
           const todo = {
             id: record.id,
-            title: record.title,
+            title: record.fields.Title,
             isCompleted: record.isCompleted,
             ...record.fields,
           };
@@ -45,12 +45,6 @@ function App() {
           }
           return todo;
         }));
-
-        // if (data.error) {
-        //   throw new Error(data.status);
-        // }
-        console.log(records);
-
       } catch (error) {
         console.log(error.message);
         setErrorMessage(error.message);
@@ -62,6 +56,7 @@ function App() {
     fetchTodos();
   }, []);
 
+  // Part 3 --- update add new Todo functionality
   function handleAddTodo(title) {
     const todoTask = {
       title: title,
@@ -70,6 +65,29 @@ function App() {
     };
     setTodoList([...todoList, todoTask]);
   }
+
+  // --- async handleAddTodo()
+  // const handleAddTodo = async (newTodo) => {
+  //   const payload = {
+  //     records: [
+  //       {
+  //         fields: {
+  //           title: newTodo,
+  //           isCompleted: newTodo.isCompleted,
+  //         }
+  //       }
+  //     ]
+  //   };
+  //   const options = {
+  //     method: 'POST',
+  //     headers: {
+  //       Authorization: token,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(payload)
+  //   };
+
+  // };
 
   function onCompleteTodo(todoId) {
     const updateTodos = todoList.map(todo => {
@@ -101,8 +119,15 @@ function App() {
         onCompleteTodo={onCompleteTodo}
         onUpdateTodo={updateTodo}
         isLoading={isLoading} />
+      {errorMessage &&
+        <>
+          <hr />
+          <p>{errorMessage}</p>
+          <button onClick={setShownError(prev => !prev)}>Dismiss</button>
+        </>
+      }
     </div>
   );
-}
+};
 
 export default App;
