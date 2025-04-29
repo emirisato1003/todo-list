@@ -4,7 +4,7 @@ import TextInputWithLabel from "../../shared/TextInputWithLabel";
 function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
     const [isEditing, setIsEditing] = useState(false);
     const [workingTitle, setWorkingTitle] = useState(todo.title);
-
+    // console.log(workingTitle);
     useEffect(() => {
         setWorkingTitle(todo.title)
     }, [todo])

@@ -4,7 +4,7 @@ import TextInputWithLabel from "../shared/TextInputWithLabel";
 function TodoForm({ onAddTodo }) {
     const todoTitleInput = useRef();
     const [workingTodo, setWorkingTodo] = useState('');
-    console.log(workingTodo);
+    // console.log(onAddTodo);
     function handleAddTodo(event) {
         event.preventDefault();
         onAddTodo(workingTodo);
@@ -17,7 +17,7 @@ function TodoForm({ onAddTodo }) {
                 ref={todoTitleInput}
                 value={workingTodo}
                 onChange={(e) => setWorkingTodo(e.target.value)}
-                elementId='todoTitle'
+                elementId="todoTitle"
                 labelText='Todo'
             />
             <button disabled={!workingTodo ? true : false}>Add Todo</button>

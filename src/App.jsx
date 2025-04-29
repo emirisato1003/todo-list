@@ -103,14 +103,16 @@ function App() {
         id: records[0].id,
         title: records[0].fields.Title,
         isCompleted: records[0].fields.isCompleted || false,
+        // ...records[0].fields
       };
       // if (!records[0].fields.isCompleted) {
       //   savedTodo.isCompleted = false;
       // }
-      setTodoList(prevList => [...prevList, savedTodo]);
+      // setTodoList(prevList => [...prevList, savedTodo]);
+      setTodoList([...todoList, savedTodo]);
     } catch (error) {
       console.log(error.message);
-      // setErrorMessage(error.message);
+      setErrorMessage(error.message);
     } finally {
       setIsSaving(false);
     }
@@ -126,6 +128,10 @@ function App() {
     });
     setTodoList(updateTodos);
   }
+
+  // const onCompleteTodo = async(todoId)=>{
+  //   console.log(todoId);
+  // }
 
   // Part 4 --- update functionality of Updata and Complete Todo
   // function updateTodo(editedTodo) {
@@ -174,30 +180,32 @@ function App() {
       // console.log(records);
       const updatedTodo = {
         id: records[0].id,
-        ...records[0].fields
+        title: records[0].fields.Title,
+        isCompleted: records[0].fields.isCompleted || false
       };
-      if (!records[0].fields.isCompleted) {
-        updatedTodo.isCompleted === false;
-      }
-      // console.log(updatedTodo);
+      // if (!records[0].fields.isCompleted) {
+      //   updatedTodo.isCompleted === false;
+      // }
+      console.log(updatedTodo);
 
       const updatedTodos = todoList.map(todo => {
         // console.log(`todo id: ${todo.id}, updatedTodo id ${updatedTodo.id}`);
         if (todo.id === updatedTodo.id) {
+          // console.log(todo.id);
           return { ...updatedTodo };
         }
         return todo;
       });
-      // console.log(updatedTodos);
       setTodoList([...updatedTodos]);
+      console.log(updatedTodos);
     } catch (error) {
       console.log(error.message);
       setErrorMessage(`${error.message}. Reverting todo...`);
-      const revertedTodos = {
+      const revertedTodo = {
         id: originalTodo.id,
         ...originalTodo.fields
       };
-      setTodoList([...revertedTodos]);
+      setTodoList([...revertedTodo]);
     } finally {
       setIsSaving(false);
     }
