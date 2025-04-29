@@ -4,7 +4,7 @@ import TextInputWithLabel from "../shared/TextInputWithLabel";
 function TodoForm({ onAddTodo }) {
     const todoTitleInput = useRef();
     const [workingTodo, setWorkingTodo] = useState('');
-    
+    console.log(workingTodo);
     function handleAddTodo(event) {
         event.preventDefault();
         onAddTodo(workingTodo);
