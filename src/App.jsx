@@ -29,19 +29,16 @@ function App() {
           throw new Error(res.status);
         }
         const { records } = await res.json();
-        // ---------- make sure if record.field.sisCompleted ? true : false works
         setTodoList(records.map(record => {
           const todo = {
             id: record.id,
-            title: record.fields.Title,
-            isCompleted: record.fields.isCompleted,
+            ...record.fields
           };
           if (!todo.isCompleted) {
             todo.isCompleted = false;
           }
           return todo;
         }));
-        console.log(todoList);
       } catch (error) {
         console.log(error.message);
         setShownError(prev => !prev);
@@ -58,14 +55,12 @@ function App() {
       records: [
         {
           fields: {
-            Title: newTodo,
-            // ------------------ in the instruction, isCompleted: newTodo.isCompleted. newTodo isn't obj. it's string for title. -------------------
+            title: newTodo,
             isCompleted: false,
           }
         }
       ]
     };
-
     const options = {
       method: "POST",
       headers: {
@@ -83,15 +78,17 @@ function App() {
         throw new Error(res.status);
       }
       const { records } = await res.json();
-      // ------------ make sure if we can do setTotdoList and savedTodo. e.g. setTodoList(prevList => [...prevList, savedTodo]);? OR from line 33 setTodoList(records.map...)------------------
-      const savedTodo = {
-        id: records[0].id,
-        title: records[0].fields.Title,
-        isCompleted: records[0].fields.isCompleted || false,
-        // --------------- ...records[0].fields from instruction ----------------
-      };
+      setTodoList(prevTodo => {
+        const savedTodo = {
+          id: records[0].id,
+          ...records[0].fields
+        };
+        if (!records[0].fields.isCompleted) {
+          savedTodo.isCompleted = false;
+        }
+        return [...prevTodo, savedTodo];
+      });
 
-      setTodoList([...todoList, savedTodo]);
     } catch (error) {
       setShownError(prev => !prev);
       console.log(error.message);
@@ -103,13 +100,12 @@ function App() {
 
   const onCompleteTodo = async (todoId) => {
     const originalTodo = todoList.find(todo => todo.id === todoId);
-
     const payload = {
       records: [
         {
           id: todoId,
           fields: {
-            Title: originalTodo.title,
+            title: originalTodo.title,
             isCompleted: true
           }
         }
@@ -134,24 +130,23 @@ function App() {
         id: records[0].id,
         ...records[0].fields
       };
-      console.log(updatedTodo);
       const updatedTodos = todoList.map(todo => {
         if (todo.id === updatedTodo.id) {
           return { ...updatedTodo };
         }
         return todo;
       });
-      setTodoList(updatedTodos)
+      setTodoList(updatedTodos);
     } catch (error) {
       console.log(error.message);
       setShownError(prev => !prev);
       setErrorMessage(`${error.message}. Reverting todo...`);
       const revertedTodo = {
         id: originalTodo.id,
-        Title: originalTodo.title,
+        title: originalTodo.title,
         isCompleted: false
       };
-    
+
       setTodoList([...revertedTodo]);
     } finally {
       setIsSaving(false);
@@ -160,14 +155,13 @@ function App() {
 
 
   const updateTodo = async (editedTodo) => {
-    console.log(editedTodo);
     const originalTodo = todoList.find(todo => todo.id === editedTodo.id);
     const payload = {
       records: [
         {
           id: editedTodo.id,
           fields: {
-            Title: editedTodo.title,
+            title: editedTodo.title,
             isCompleted: editedTodo.isCompleted,
           }
         }
@@ -181,7 +175,6 @@ function App() {
       },
       body: JSON.stringify(payload)
     };
-
     try {
       setIsSaving(true);
 
@@ -192,11 +185,11 @@ function App() {
       const { records } = await res.json();
       const updatedTodo = {
         id: records[0].id,
-        // --------------------- error before ...records[0].fields -----------------------------------
-        title: records[0].fields.Title,
-        isCompleted: records[0].fields.isCompleted || false
-        // ...records[0].fields
+        ...records[0].fields
       };
+      if (!records[0].isCompleted) {
+        updatedTodo.isCompleted = false;
+      }
       const updatedTodos = todoList.map(todo => {
         if (todo.id === updatedTodo.id) {
           return { ...updatedTodo };
@@ -204,6 +197,7 @@ function App() {
         return todo;
       });
       setTodoList([...updatedTodos]);
+
     } catch (error) {
       console.log(error.message);
       setErrorMessage(`${error.message}. Reverting todo...`);
