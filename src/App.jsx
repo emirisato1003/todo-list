@@ -13,7 +13,6 @@ function App() {
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
-  // create useEffect and fetching data
   useEffect(() => {
     const fetchTodos = async () => {
       setIsLoading(true);
@@ -24,62 +23,49 @@ function App() {
           "Authorization": token
         }
       };
-      // set up try/catch/finally
       try {
         const res = await fetch(url, options);
         if (!res.ok) {
           throw new Error(res.status);
         }
-
         const { records } = await res.json();
-        // console.log(records);
+        // ---------- make sure if record.field.sisCompleted ? true : false works
         setTodoList(records.map(record => {
           const todo = {
             id: record.id,
             title: record.fields.Title,
-            isCompleted: record.isCompleted,
-            ...record.fields,
+            isCompleted: record.fields.isCompleted,
           };
           if (!todo.isCompleted) {
             todo.isCompleted = false;
           }
           return todo;
         }));
+        console.log(todoList);
       } catch (error) {
         console.log(error.message);
+        setShownError(prev => !prev);
         setErrorMessage(error.message);
       } finally {
-        // console.log('action completed');
         setIsLoading(false);
       }
     };
     fetchTodos();
   }, []);
 
-  // Part 3 --- update add new Todo functionality
-  // function handleAddTodo(title) {
-  //   const todoTask = {
-  //     title: title,
-  //     id: Date.now(),
-  //     isCompleted: false
-  //   };
-  //   setTodoList([...todoList, todoTask]);
-  // }
-
-  // --- async handleAddTodo()
   const handleAddTodo = async (newTodo) => {
     const payload = {
       records: [
         {
           fields: {
             Title: newTodo,
-            // in the instruction, isCompleted: newTodo.isCompleted. newTodo isn't obj. it's string for title.
+            // ------------------ in the instruction, isCompleted: newTodo.isCompleted. newTodo isn't obj. it's string for title. -------------------
             isCompleted: false,
           }
         }
       ]
     };
-    // console.log("Sending payload:", payload);
+
     const options = {
       method: "POST",
       headers: {
@@ -91,26 +77,23 @@ function App() {
 
     try {
       setIsSaving(true);
-      const res = await fetch(url, options);
 
+      const res = await fetch(url, options);
       if (!res.ok) {
         throw new Error(res.status);
       }
       const { records } = await res.json();
-      // console.log(records);
-
+      // ------------ make sure if we can do setTotdoList and savedTodo. e.g. setTodoList(prevList => [...prevList, savedTodo]);? OR from line 33 setTodoList(records.map...)------------------
       const savedTodo = {
         id: records[0].id,
         title: records[0].fields.Title,
         isCompleted: records[0].fields.isCompleted || false,
-        // ...records[0].fields
+        // --------------- ...records[0].fields from instruction ----------------
       };
-      // if (!records[0].fields.isCompleted) {
-      //   savedTodo.isCompleted = false;
-      // }
-      // setTodoList(prevList => [...prevList, savedTodo]);
+
       setTodoList([...todoList, savedTodo]);
     } catch (error) {
+      setShownError(prev => !prev);
       console.log(error.message);
       setErrorMessage(error.message);
     } finally {
@@ -118,35 +101,66 @@ function App() {
     }
   };
 
-  // Last Part --- update functionality to complete Todos
-  function onCompleteTodo(todoId) {
-    const updateTodos = todoList.map(todo => {
-      if (todo.id === todoId) {
-        return { ...todo, isCompleted: true };
+  const onCompleteTodo = async (todoId) => {
+    const originalTodo = todoList.find(todo => todo.id === todoId);
+
+    const payload = {
+      records: [
+        {
+          id: todoId,
+          fields: {
+            Title: originalTodo.title,
+            isCompleted: true
+          }
+        }
+      ]
+    };
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload)
+    };
+    try {
+      setIsSaving(true);
+      const res = await fetch(url, options);
+      if (!res.ok) {
+        throw new Error(res.status);
       }
-      return todo;
-    });
-    setTodoList(updateTodos);
-  }
+      const { records } = await res.json();
+      const updatedTodo = {
+        id: records[0].id,
+        ...records[0].fields
+      };
+      console.log(updatedTodo);
+      const updatedTodos = todoList.map(todo => {
+        if (todo.id === updatedTodo.id) {
+          return { ...updatedTodo };
+        }
+        return todo;
+      });
+      setTodoList(updatedTodos)
+    } catch (error) {
+      console.log(error.message);
+      setShownError(prev => !prev);
+      setErrorMessage(`${error.message}. Reverting todo...`);
+      const revertedTodo = {
+        id: originalTodo.id,
+        Title: originalTodo.title,
+        isCompleted: false
+      };
+    
+      setTodoList([...revertedTodo]);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
-  // const onCompleteTodo = async(todoId)=>{
-  //   console.log(todoId);
-  // }
 
-  // Part 4 --- update functionality of Updata and Complete Todo
-  // function updateTodo(editedTodo) {
-  //   const updateTodos = todoList.map(todo => {
-  //     if (todo.id === editedTodo.id) {
-  //       console.log(editedTodo.title);
-  //       return { ...editedTodo };
-  //     }
-  //     return todo;
-  //   });
-  //   setTodoList(updateTodos);
-  // }
-
-  // --- async updateTodo()
   const updateTodo = async (editedTodo) => {
+    console.log(editedTodo);
     const originalTodo = todoList.find(todo => todo.id === editedTodo.id);
     const payload = {
       records: [
@@ -159,8 +173,6 @@ function App() {
         }
       ]
     };
-    // console.log("Sending payload", payload);
-
     const options = {
       method: 'PATCH',
       headers: {
@@ -171,39 +183,35 @@ function App() {
     };
 
     try {
+      setIsSaving(true);
+
       const res = await fetch(url, options);
-      // console.log("response status", res.status);
       if (!res.ok) {
         throw new Error(res.status);
       }
       const { records } = await res.json();
-      // console.log(records);
       const updatedTodo = {
         id: records[0].id,
+        // --------------------- error before ...records[0].fields -----------------------------------
         title: records[0].fields.Title,
         isCompleted: records[0].fields.isCompleted || false
+        // ...records[0].fields
       };
-      // if (!records[0].fields.isCompleted) {
-      //   updatedTodo.isCompleted === false;
-      // }
-      console.log(updatedTodo);
-
       const updatedTodos = todoList.map(todo => {
-        // console.log(`todo id: ${todo.id}, updatedTodo id ${updatedTodo.id}`);
         if (todo.id === updatedTodo.id) {
-          // console.log(todo.id);
           return { ...updatedTodo };
         }
         return todo;
       });
       setTodoList([...updatedTodos]);
-      console.log(updatedTodos);
     } catch (error) {
       console.log(error.message);
       setErrorMessage(`${error.message}. Reverting todo...`);
+      setShownError(prev => !prev);
       const revertedTodo = {
         id: originalTodo.id,
-        ...originalTodo.fields
+        title: originalTodo.title,
+        isCompleted: originalTodo.isCompleted || false
       };
       setTodoList([...revertedTodo]);
     } finally {
@@ -220,14 +228,14 @@ function App() {
         onCompleteTodo={onCompleteTodo}
         onUpdateTodo={updateTodo}
         isLoading={isLoading} />
-      {errorMessage &&
+      {errorMessage && shownError &&
         <>
           <hr />
           <p>{errorMessage}</p>
-          <button onClick={setShownError(prev => !prev)}>Dismiss</button>
+          <button onClick={() => setShownError(prev => !prev)}>Dismiss</button>
         </>
       }
-    </div>
+    </div >
   );
 };
 

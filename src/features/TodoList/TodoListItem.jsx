@@ -6,8 +6,8 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
     const [workingTitle, setWorkingTitle] = useState(todo.title);
     // console.log(workingTitle);
     useEffect(() => {
-        setWorkingTitle(todo.title)
-    }, [todo])
+        setWorkingTitle(todo.title);
+    }, [todo]);
     // console.log(todo);
     function handleCancel(event) {
         event.preventDefault();
@@ -21,9 +21,9 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
     }
 
     function handleUpdate(event) {
-        if(!isEditing) return // exit if not editing
+        if (!isEditing) return; // exit if not editing
         event.preventDefault();
-        onUpdateTodo({...todo, title: workingTitle});
+        onUpdateTodo({ ...todo, title: workingTitle });
         setIsEditing(false);
     }
     return (
