@@ -3,7 +3,7 @@ import TodoListItem from "./TodoListItem";
 function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
     // console.log(todoList);
     const filteredTodoList = todoList.filter(todo => !todo.isCompleted);
-    console.log(todoList);
+    // console.log(todoList);
     // console.log(filteredTodoList);
     return (
         <>

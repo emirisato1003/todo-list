@@ -13,16 +13,26 @@ function App() {
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
+
+  function getOptions(method, payload) {
+    const options = {
+      method: method,
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+      },
+    };
+    if (payload !== undefined) {
+      options.body = JSON.stringify(payload);
+    }
+    return options
+  }
+
   useEffect(() => {
     const fetchTodos = async () => {
       setIsLoading(true);
 
-      const options = {
-        method: "GET",
-        headers: {
-          "Authorization": token
-        }
-      };
+      const options = getOptions('GET')
       try {
         const res = await fetch(url, options);
         if (!res.ok) {
@@ -61,15 +71,7 @@ function App() {
         }
       ]
     };
-    const options = {
-      method: "POST",
-      headers: {
-        'Authorization': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload)
-    };
-
+    const options = getOptions('POST', payload)
     try {
       setIsSaving(true);
 
@@ -111,14 +113,7 @@ function App() {
         }
       ]
     };
-    const options = {
-      method: 'PATCH',
-      headers: {
-        'Authorization': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload)
-    };
+    const options = getOptions('PATCH', payload)
     try {
       setIsSaving(true);
       const res = await fetch(url, options);
@@ -146,7 +141,6 @@ function App() {
         title: originalTodo.title,
         isCompleted: false
       };
-
       setTodoList([...revertedTodo]);
     } finally {
       setIsSaving(false);
@@ -167,14 +161,7 @@ function App() {
         }
       ]
     };
-    const options = {
-      method: 'PATCH',
-      headers: {
-        "Authorization": token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload)
-    };
+    const options = getOptions('PATCH', payload)
     try {
       setIsSaving(true);
 
