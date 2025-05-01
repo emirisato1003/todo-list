@@ -2,6 +2,8 @@ import TodoList from './features/TodoList/TodoList';
 import TodoForm from './features/TodoForm';
 import './App.css';
 import { useEffect, useState } from 'react';
+import { getOptions } from './utils/api';
+import { apiRequest } from './utils/api';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -11,54 +13,34 @@ function App() {
   const [isSaving, setIsSaving] = useState(false);
 
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
-  const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
 
-  function getOptions(method, payload) {
-    const options = {
-      method: method,
-      headers: {
-        'Authorization': token,
-        'Content-Type': 'application/json'
-      },
-    };
-    if (payload !== undefined) {
-      options.body = JSON.stringify(payload);
-    }
-    return options
-  }
 
   useEffect(() => {
     const fetchTodos = async () => {
       setIsLoading(true);
 
-      const options = getOptions('GET')
-      try {
-        const res = await fetch(url, options);
-        if (!res.ok) {
-          throw new Error(res.status);
+      const options = getOptions('GET');
+      const { success, records, error } = await apiRequest(options, null, () => setIsLoading(false));
+      success && setTodoList(records.map(record => {
+        const todo = {
+          id: record.id,
+          ...record.fields
+        };
+        if (!todo.isCompleted) {
+          todo.isCompleted = false;
         }
-        const { records } = await res.json();
-        setTodoList(records.map(record => {
-          const todo = {
-            id: record.id,
-            ...record.fields
-          };
-          if (!todo.isCompleted) {
-            todo.isCompleted = false;
-          }
-          return todo;
-        }));
-      } catch (error) {
-        console.log(error.message);
-        setShownError(prev => !prev);
-        setErrorMessage(error.message);
-      } finally {
-        setIsLoading(false);
+        return todo;
+      }));
+      if (!success) {
+        setErrorMessage(error);
+        setShownError(true);
       }
     };
     fetchTodos();
   }, []);
+
+
 
   const handleAddTodo = async (newTodo) => {
     const payload = {
@@ -71,34 +53,25 @@ function App() {
         }
       ]
     };
-    const options = getOptions('POST', payload)
-    try {
-      setIsSaving(true);
-
-      const res = await fetch(url, options);
-      if (!res.ok) {
-        throw new Error(res.status);
+    const options = getOptions('POST', payload);
+    const { success, records, error } = await apiRequest(options, () => setIsSaving(true), () => setIsSaving(false));
+    success && setTodoList(prevTodo => {
+      const savedTodo = {
+        id: records[0].id,
+        ...records[0].fields
+      };
+      if (!records[0].fields.isCompleted) {
+        savedTodo.isCompleted = false;
       }
-      const { records } = await res.json();
-      setTodoList(prevTodo => {
-        const savedTodo = {
-          id: records[0].id,
-          ...records[0].fields
-        };
-        if (!records[0].fields.isCompleted) {
-          savedTodo.isCompleted = false;
-        }
-        return [...prevTodo, savedTodo];
-      });
-
-    } catch (error) {
-      setShownError(prev => !prev);
-      console.log(error.message);
+      return [...prevTodo, savedTodo];
+    });
+    if (!success) {
       setErrorMessage(error.message);
-    } finally {
-      setIsSaving(false);
+      setShownError(true);
     }
   };
+
+
 
   const onCompleteTodo = async (todoId) => {
     const originalTodo = todoList.find(todo => todo.id === todoId);
@@ -113,14 +86,9 @@ function App() {
         }
       ]
     };
-    const options = getOptions('PATCH', payload)
-    try {
-      setIsSaving(true);
-      const res = await fetch(url, options);
-      if (!res.ok) {
-        throw new Error(res.status);
-      }
-      const { records } = await res.json();
+    const options = getOptions('PATCH', payload);
+    const { success, records, error } = await apiRequest(options, () => setIsSaving(true), () => setIsSaving(false));
+    if (success) {
       const updatedTodo = {
         id: records[0].id,
         ...records[0].fields
@@ -132,9 +100,8 @@ function App() {
         return todo;
       });
       setTodoList(updatedTodos);
-    } catch (error) {
-      console.log(error.message);
-      setShownError(prev => !prev);
+    } else {
+      setShownError(true);
       setErrorMessage(`${error.message}. Reverting todo...`);
       const revertedTodo = {
         id: originalTodo.id,
@@ -142,10 +109,9 @@ function App() {
         isCompleted: false
       };
       setTodoList([...revertedTodo]);
-    } finally {
-      setIsSaving(false);
     }
   };
+
 
 
   const updateTodo = async (editedTodo) => {
@@ -161,15 +127,9 @@ function App() {
         }
       ]
     };
-    const options = getOptions('PATCH', payload)
-    try {
-      setIsSaving(true);
-
-      const res = await fetch(url, options);
-      if (!res.ok) {
-        throw new Error(res.status);
-      }
-      const { records } = await res.json();
+    const options = getOptions('PATCH', payload);
+    const { success, records, error } = await apiRequest(options, () => setIsSaving(true), () => setIsSaving(false));
+    if (success) {
       const updatedTodo = {
         id: records[0].id,
         ...records[0].fields
@@ -184,22 +144,19 @@ function App() {
         return todo;
       });
       setTodoList([...updatedTodos]);
-
-    } catch (error) {
-      console.log(error.message);
+    } else {
       setErrorMessage(`${error.message}. Reverting todo...`);
-      setShownError(prev => !prev);
+      setShownError(true);
       const revertedTodo = {
         id: originalTodo.id,
         title: originalTodo.title,
         isCompleted: originalTodo.isCompleted || false
       };
       setTodoList([...revertedTodo]);
-    } finally {
-      setIsSaving(false);
     }
   };
 
+  
   return (
     <div>
       <h1>My Todos</h1>
