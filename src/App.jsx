@@ -4,6 +4,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { getOptions } from './utils/api';
 import { apiRequest } from './utils/api';
+// const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -12,31 +13,31 @@ function App() {
   const [shownError, setShownError] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
 
 
 
-  useEffect(() => {
-    const fetchTodos = async () => {
-      setIsLoading(true);
+  const fetchTodos = async () => {
+    setIsLoading(true);
 
-      const options = getOptions('GET');
-      const { success, records, error } = await apiRequest(options, null, () => setIsLoading(false));
-      success && setTodoList(records.map(record => {
-        const todo = {
-          id: record.id,
-          ...record.fields
-        };
-        if (!todo.isCompleted) {
-          todo.isCompleted = false;
-        }
-        return todo;
-      }));
-      if (!success) {
-        setErrorMessage(error);
-        setShownError(true);
+    const options = getOptions('GET');
+    const { success, records, error } = await apiRequest(options, null, () => setIsLoading(false));
+    success && setTodoList(records.map(record => {
+      const todo = {
+        id: record.id,
+        ...record.fields
+      };
+      if (!todo.isCompleted) {
+        todo.isCompleted = false;
       }
-    };
+      return todo;
+    }));
+    if (!success) {
+      setErrorMessage(error);
+      setShownError(true);
+    }
+  };
+  
+  useEffect(() => {
     fetchTodos();
   }, []);
 
@@ -156,7 +157,7 @@ function App() {
     }
   };
 
-  
+
   return (
     <div>
       <h1>My Todos</h1>
