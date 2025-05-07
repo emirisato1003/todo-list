@@ -1,17 +1,25 @@
 import TodoListItem from "./TodoListItem";
 
-function TodoList({ todoList, onCompleteTodo, onUpdateTodo }) {
+function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
+    // console.log(todoList);
     const filteredTodoList = todoList.filter(todo => !todo.isCompleted);
+    // console.log(todoList);
+    // console.log(filteredTodoList);
     return (
-        todoList.length === 0 ? <p>Add Task to My Todo✏️</p> :
-            <ul>
-                {filteredTodoList.map((todo) => {
-                    return (
-                        <TodoListItem key={todo.id} todo={todo} onCompleteTodo={onCompleteTodo} onUpdateTodo={onUpdateTodo}/>
-                    );
-                })}
-            </ul>
+        <>
+            {todoList.filter(todo => todo.isCompleted === false).length === 0 ?
+                isLoading ? <p>Todo list is loading...</p> : <p>Add Task to My Todo✏️</p>
+                : <ul>
+                    {filteredTodoList.map((todo) => {
+                        return (
+                            <TodoListItem key={todo.id} todo={todo} onCompleteTodo={onCompleteTodo} onUpdateTodo={onUpdateTodo} />
+                        );
+                    })}
+                </ul>}
+        </>
     );
 }
 
 export default TodoList;
+
+//todoList.filter(todo => todo.isCompleted === false).length === 0
