@@ -1,0 +1,90 @@
+/*** CSS RESET ***/
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+    interpolate-size: allow-keywords;
+    }
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--background-color);
+    font-family: 'Inter', sans-serif;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+p {
+    text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+
+#root, #__next {
+    isolation: isolate;
+}
+/*** Typography system ***/
+h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/*** Color system ***/
+:root{
+    --primary-color: #457b9d;
+    --background-color: #F1F1F1;
+    --accent-color:#e63946;
+    --dark-blue-color: #1d3557;
+    --light-blue-color: #a8dadc;
+}
+
+/*** Form styling ***/
+button{
+    color: var(--accent-color);
+    background-color:var(--light-blue-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding-inline: 10px;
+}
+
+button:hover{
+    background-color:  #b3e6ff;
+}
+
+input{
+    border-radius: 6px;
+    border: 1px solid var(--accent-color);
+}
