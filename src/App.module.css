@@ -1,0 +1,16 @@
+.body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.body h1{
+    margin-bottom: 1em;
+    text-align: start;
+}
+
+.body h1::after{
+    content: "🎯";
+}
