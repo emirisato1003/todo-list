@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import TodoList from './features/TodoList/TodoList';
 import TodoForm from './features/TodoForm';
@@ -8,16 +8,6 @@ import './App.css';
 
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
 const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
-
-const encodeUrl = ({ sortField, sortDirection, queryString }) => {
-  let searchQuery = "";
-  
-  let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
-  if (queryString) {
-    searchQuery = `&filterByFormula=SEARCH("${queryString}", +title)`;
-  }
-  return encodeURI(`${url}?${sortQuery}${searchQuery}`);
-};
 
 const apiRequest = async (url, options, onStart, onEnd) => {
   try {
@@ -60,13 +50,23 @@ function App() {
   const [sortDirection, setSortDirection] = useState("desc");
   const [sortField, setSortField] = useState("title");
   const [queryString, setQueryString] = useState("");
-  
+
+  const encodeUrl = useCallback(() => {
+    let searchQuery = "";
+
+    let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
+    if (queryString) {
+      searchQuery = `&filterByFormula=SEARCH("${queryString}", +title)`;
+    }
+    return encodeURI(`${url}?${sortQuery}${searchQuery}`);
+  }, [sortField, sortDirection, queryString]);
+
   const fetchTodos = async () => {
     setIsLoading(true);
 
     const options = getOptions('GET');
-    const { success, records, error } = await apiRequest(encodeUrl({ sortField, sortDirection, queryString }), options, null, () => setIsLoading(false));
-    
+    const { success, records, error } = await apiRequest(encodeUrl(), options, null, () => setIsLoading(false));
+
     success && setTodoList(records.map(record => {
       const todo = {
         id: record.id,
@@ -99,7 +99,7 @@ function App() {
       ]
     };
     const options = getOptions('POST', payload);
-    const { success, records, error } = await apiRequest(encodeUrl({ sortField, sortDirection, queryString }), options, () => setIsSaving(true), () => setIsSaving(false));
+    const { success, records, error } = await apiRequest(encodeUrl(), options, () => setIsSaving(true), () => setIsSaving(false));
     success && setTodoList(prevTodo => {
       const savedTodo = {
         id: records[0].id,
@@ -130,7 +130,7 @@ function App() {
       ]
     };
     const options = getOptions('PATCH', payload);
-    const { success, records, error } = await apiRequest(encodeUrl({ sortField, sortDirection, queryString }), options, () => setIsSaving(true), () => setIsSaving(false));
+    const { success, records, error } = await apiRequest(encodeUrl(), options, () => setIsSaving(true), () => setIsSaving(false));
     if (success) {
       const updatedTodo = {
         id: records[0].id,
@@ -169,7 +169,7 @@ function App() {
       ]
     };
     const options = getOptions('PATCH', payload);
-    const { success, records, error } = await apiRequest(encodeUrl({ sortField, sortDirection, queryString }), options, () => setIsSaving(true), () => setIsSaving(false));
+    const { success, records, error } = await apiRequest(encodeUrl(), options, () => setIsSaving(true), () => setIsSaving(false));
     if (success) {
       const updatedTodo = {
         id: records[0].id,
