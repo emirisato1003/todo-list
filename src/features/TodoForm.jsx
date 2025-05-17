@@ -1,10 +1,25 @@
 import { useRef, useState } from "react";
 import TextInputWithLabel from "../shared/TextInputWithLabel";
+import styled from "styled-components";
 
+const StyledButton = styled.button`
+    &:disabled{
+    font-style: italic;
+    background-color: #ccc;
+    cursor: not-allowed;
+    }
+`;
+
+const StyledForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+`;
 function TodoForm({ onAddTodo }) {
     const todoTitleInput = useRef();
     const [workingTodo, setWorkingTodo] = useState('');
-    // console.log(onAddTodo);
+    console.log(Boolean(!workingTodo));
     function handleAddTodo(event) {
         event.preventDefault();
         onAddTodo(workingTodo);
@@ -12,7 +27,7 @@ function TodoForm({ onAddTodo }) {
         todoTitleInput.current.focus();
     }
     return (
-        <form onSubmit={handleAddTodo}>
+        <StyledForm onSubmit={handleAddTodo}>
             <TextInputWithLabel
                 ref={todoTitleInput}
                 value={workingTodo}
@@ -20,8 +35,8 @@ function TodoForm({ onAddTodo }) {
                 elementId="todoTitle"
                 labelText='Todo'
             />
-            <button disabled={!workingTodo ? true : false}>Add Todo</button>
-        </form>
+            <StyledButton disabled={!workingTodo} aria-disabled={!workingTodo}>Add Todo</StyledButton>
+        </StyledForm>
     );
 }
 

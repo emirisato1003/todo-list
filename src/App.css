@@ -87,3 +87,7 @@ input{
     border-radius: 6px;
     border: 1px solid var(--primary-text-color);
 }
+
+label{
+    color: var(--primary-text-color);
+}
