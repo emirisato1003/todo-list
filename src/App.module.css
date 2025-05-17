@@ -8,9 +8,10 @@
 
 .body h1{
     margin-bottom: 1em;
-    text-align: start;
+    text-transform:uppercase;
+    letter-spacing: 5px;
 }
 
 .body h1::after{
-    content: "🎯";
+    content: "⚙️";
 }
