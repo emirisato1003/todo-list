@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TextInputWithLabel from "../../shared/TextInputWithLabel";
+import styles from "./TodoListItem.module.css";
 
 function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
     const [isEditing, setIsEditing] = useState(false);
@@ -27,18 +28,19 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
         setIsEditing(false);
     }
     return (
-        <li>
+        <li className={styles.todoListItem}>
             <form>
                 {isEditing ?
-                    <>
+                    <div className={styles.editingForm}>
                         <TextInputWithLabel value={workingTitle} onChange={handleEdit} />
-                        <button onClick={handleCancel}>Cancel</button>
-                        <button onClick={handleUpdate}>Update</button>
-                    </>
+                        <button onClick={handleCancel} className={styles.cancel}>Cancel</button>
+                        <button onClick={handleUpdate} className={styles.update}>Update</button>
+                    </div>
                     :
                     <>
                         <label>
                             <input
+                                className={styles.checkbox}
                                 type="checkbox"
                                 id={`checkbox${todo.id}`}
                                 checked={todo.isCompleted}

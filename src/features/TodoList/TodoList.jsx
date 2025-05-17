@@ -1,4 +1,5 @@
 import TodoListItem from "./TodoListItem";
+import styles from "./TodoList.module.css"
 
 function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
     // console.log(todoList);
@@ -6,7 +7,7 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
     // console.log(todoList);
     // console.log(filteredTodoList);
     return (
-        <>
+        <div className={styles.todoList}>
             {todoList.filter(todo => todo.isCompleted === false).length === 0 ?
                 isLoading ? <p>Todo list is loading...</p> : <p>Add Task to My Todo✏️</p>
                 : <ul>
@@ -16,7 +17,7 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
                         );
                     })}
                 </ul>}
-        </>
+        </div>
     );
 }
 

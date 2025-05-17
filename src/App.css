@@ -1,0 +1,87 @@
+/*** CSS RESET ***/
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+    interpolate-size: allow-keywords;
+    }
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+}
+
+p {
+    text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+}
+
+#root, #__next {
+    isolation: isolate;
+}
+/*** Typography system ***/
+h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/*** Color system ***/
+
+:root {
+    --primary-color: #FFB703;           
+    --accent-color: #FB8500;            
+    --background-color: #023047;
+    --primary-text-color:oklch(98.5% 0 0) ;      
+    --secondary-color: #dad9d8; 
+}
+
+/*** Form styling ***/
+button{
+    color: var(--primary-text-color);
+    background-color:var(--primary-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding-inline: 10px;
+}
+
+button:hover{
+    background-color: var(--accent-color);
+}
+
+input{
+    border-radius: 6px;
+    border: 1px solid var(--primary-text-color);
+}

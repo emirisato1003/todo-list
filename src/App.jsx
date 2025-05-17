@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import TodoList from './features/TodoList/TodoList';
 import TodoForm from './features/TodoForm';
 import TodoViewForm from './features/TodoViewForm';
+import styles from './App.module.css';
 import './App.css';
 
 
@@ -111,7 +112,7 @@ function App() {
       return [...prevTodo, savedTodo];
     });
     if (!success) {
-      setErrorMessage(error.message);
+      setErrorMessage(error);
       setShownError(true);
     }
   };
@@ -145,7 +146,7 @@ function App() {
       setTodoList(updatedTodos);
     } else {
       setShownError(true);
-      setErrorMessage(`${error.message}. Reverting todo...`);
+      setErrorMessage(`${error}. Reverting todo...`);
       const revertedTodo = {
         id: originalTodo.id,
         title: originalTodo.title,
@@ -186,7 +187,7 @@ function App() {
       });
       setTodoList([...updatedTodos]);
     } else {
-      setErrorMessage(`${error.message}. Reverting todo...`);
+      setErrorMessage(`${error}. Reverting todo...`);
       setShownError(true);
       const revertedTodo = {
         id: originalTodo.id,
@@ -198,7 +199,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className={styles.body}>
       <h1>My Todos</h1>
       <TodoForm onAddTodo={handleAddTodo} />
       <TodoList
@@ -222,7 +223,7 @@ function App() {
           <button onClick={() => setShownError(prev => !prev)}>Dismiss</button>
         </>
       }
-    </div >
+    </div>
   );
 };
 

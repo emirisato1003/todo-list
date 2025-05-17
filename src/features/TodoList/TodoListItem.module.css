@@ -1,0 +1,46 @@
+.todoListItem{
+    padding: 5px;
+}
+
+.todoListItem form{
+    background-color:oklch(96.7% 0.003 264.542);
+    padding: 1em;
+    border-radius: 5px;
+    min-width: 400px;
+}
+
+.todoListItem .cancel{
+    background-color: #e63946;
+    color: #f1f1f1;
+}
+
+.todoListItem .update{
+    background-color: #b3e6ff;
+}
+
+.todoListItem span{
+    /* border-bottom: 1px dotted #1d3557; */
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.todoListItem span:hover{
+    color: #7b8891;
+}
+
+
+input[type='checkbox']{
+    transform: scale(1.5);
+    margin-right: 10px;
+    accent-color: green;
+}
+
+input[type='checkbox']:hover::after{
+    content: '✓';
+    position: absolute;
+    transform: translate(1.5px,-3px);
+    font-size: .8rem;
+    color: green;
+    /* transition: all 0.3s ease; */
+}
+
