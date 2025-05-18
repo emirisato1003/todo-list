@@ -9,7 +9,7 @@ export default function TextInputWithLabel({ elementId, labelText, onChange, ref
     return (
         <>
             <StyledLabel htmlFor={elementId}>{labelText}</StyledLabel>
-            <input type="text" id={elementId} ref={ref} onChange={onChange} value={value} autoComplete="off" />
+            <input type="text" id={elementId} ref={ref} onChange={onChange} value={value} placeholder="New todo" autoComplete="off" />
         </>
     );
 }

@@ -1,5 +1,5 @@
 .body{
-    border: 1px dashed var(--secondary-color);
+    /* border: 2px solid var(--secondary-color); */
     padding: 2.5em;
 }
 
@@ -11,4 +11,10 @@
 
 .body h1::after{
     content: "⚙️";
+}
+
+hr{
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(228, 221, 221, 0.75), rgba(0, 0, 0, 0));
 }

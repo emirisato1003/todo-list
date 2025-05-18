@@ -20,8 +20,16 @@
     color: #f1f1f1;
 }
 
+.todoListItem .cancel:hover{
+    background-color: #e6666e;
+}
+
 .todoListItem .update{
     background-color: #b3e6ff;
+}
+
+.todoListItem .update:hover{
+    background-color: #c3dceb;
 }
 
 .todoListItem span{
