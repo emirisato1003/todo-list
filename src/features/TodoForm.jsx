@@ -1,8 +1,16 @@
 import { useRef, useState } from "react";
 import TextInputWithLabel from "../shared/TextInputWithLabel";
 import styled from "styled-components";
+import { IoIosAddCircleOutline } from "react-icons/io";
+
+const StyledForm = styled.form`
+margin-block: 2em;
+`;
 
 const StyledButton = styled.button`
+    &:after{
+    content:'+'
+    }
     &:disabled{
     font-style: italic;
     background-color: #ccc;
@@ -10,12 +18,6 @@ const StyledButton = styled.button`
     }
 `;
 
-const StyledForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 7px;
-`;
 function TodoForm({ onAddTodo }) {
     const todoTitleInput = useRef();
     const [workingTodo, setWorkingTodo] = useState('');

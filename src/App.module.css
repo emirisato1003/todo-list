@@ -1,13 +1,10 @@
 .body{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    border: 1px dashed var(--secondary-color);
+    padding: 2.5em;
 }
 
 .body h1{
-    margin-bottom: .7em;
+    margin-bottom: 1em;
     text-transform:uppercase;
     letter-spacing: 5px;
 }

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledLabal = styled.label`
+const StyledLabel = styled.label`
     text-transform: uppercase;
     font-weight: 600;
     font-size: 1.1rem;
@@ -8,7 +8,7 @@ const StyledLabal = styled.label`
 export default function TextInputWithLabel({ elementId, labelText, onChange, ref, value }) {
     return (
         <>
-            <StyledLabal htmlFor={elementId}>{labelText}</StyledLabal>
+            <StyledLabel htmlFor={elementId}>{labelText}</StyledLabel>
             <input type="text" id={elementId} ref={ref} onChange={onChange} value={value} autoComplete="off" />
         </>
     );

@@ -62,14 +62,15 @@ p {
 /*** Color system ***/
 
 :root {
-    --primary-color: #FFB703;           
-    --accent-color: #FB8500;            
+    --primary-color: #FB8500;            
+    --accent-color:#FFB703;            
     --background-color: #023047;
     --primary-text-color:oklch(98.5% 0 0) ;    
     --dark-text-color: oklch(25.7% 0.09 281.288);  
     --secondary-color: #dad9d8; 
 }
 /*** Form styling ***/
+
 button{
     color: var(--dark-text-color);
     background-color:var(--primary-color);
@@ -77,6 +78,7 @@ button{
     border-radius: 5px;
     cursor: pointer;
     padding-inline: 10px;
+    margin-left: 5px;
 }
 
 button:hover{
@@ -84,10 +86,21 @@ button:hover{
 }
 
 input{
-    border-radius: 6px;
     border: 1px solid var(--primary-text-color);
+    background-color:transparent;
+    border: none;
+    border-bottom: 1px solid var(--primary-text-color);
+    max-width: 400px;
+}
+
+input:focus, input:active{
+    outline: none;
+    border-color: transparent;
+    border-bottom: 2px solid #3db2ec;
+    color: var(--secondary-color);
 }
 
 label{
     color: var(--primary-text-color);
+    margin-right: 5px;
 }

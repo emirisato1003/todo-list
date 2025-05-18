@@ -6,7 +6,13 @@
     background-color:oklch(96.7% 0.003 264.542);
     padding: 1em;
     border-radius: 5px;
-    min-width: 400px;
+    min-width: 600px;
+}
+
+.todoListItem form:hover{
+    border-left: 5px solid var(--accent-color);
+    border-radius: 0 5px 5px 0;
+
 }
 
 .todoListItem .cancel{
@@ -22,11 +28,6 @@
     cursor: pointer;
 }
 
-.todoListItem span:hover{
-    color: #7b8891;
-}
-
-
 input[type='checkbox']{
     transform: scale(1.5);
     margin-right: 10px;
@@ -41,4 +42,3 @@ input[type='checkbox']:hover::after{
     font-size: .7rem;
     color: green;
 }
-
