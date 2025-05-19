@@ -5,11 +5,15 @@ const StyledLabel = styled.label`
     font-weight: 600;
     font-size: 1.1rem;
 `;
+const StyledInput = styled.input`
+    flex: 1;
+    min-width: 0;
+`
 export default function TextInputWithLabel({ elementId, labelText, onChange, ref, value }) {
     return (
         <>
             <StyledLabel htmlFor={elementId}>{labelText}</StyledLabel>
-            <input type="text" id={elementId} ref={ref} onChange={onChange} value={value} placeholder="New todo" autoComplete="off" />
+            <StyledInput type="text" id={elementId} ref={ref} onChange={onChange} value={value} placeholder={value ? value: "New todo"} autoComplete="off" />
         </>
     );
 }

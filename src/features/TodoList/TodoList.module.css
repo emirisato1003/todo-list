@@ -1,5 +1,5 @@
 .todoList{
-    margin: 2em;
+    margin-block: 2em;
 }
 
 .todoList ul {
@@ -9,4 +9,5 @@
 
 .todoList p{
     font-size: 1.2rem;
+    text-align: center;
 }

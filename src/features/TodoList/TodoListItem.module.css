@@ -2,6 +2,10 @@
     padding: 5px;
 }
 
+.editingForm{
+    display: flex;
+}
+
 .todoListItem form{
     background-color:oklch(96.7% 0.003 264.542);
     padding: 1em;
