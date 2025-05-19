@@ -8,6 +8,10 @@ const StyledForm = styled.form`
     input{
     border-bottom: 1px solid oklch(96.7% 0.003 264.542);
     color: oklch(96.7% 0.003 264.542);
+    
+    &:focus{
+        border-bottom: 2px solid var(--accent-color);
+    }
     }
 `;
 

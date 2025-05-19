@@ -43,7 +43,7 @@
 input[type='checkbox']{
     transform: scale(1.5);
     margin-right: 10px;
-    accent-color: green;
+    cursor: pointer;
 }
 
 input[type='checkbox']:hover::after{
@@ -53,4 +53,8 @@ input[type='checkbox']:hover::after{
     transform: translate(1.8px,-1px);
     font-size: .7rem;
     color: green;
+}
+
+input[type='checkbox']:checked{
+    background-color: lightgreen;
 }
