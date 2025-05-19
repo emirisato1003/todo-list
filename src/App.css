@@ -69,7 +69,13 @@ p {
     --dark-text-color: oklch(25.7% 0.09 281.288);  
     --secondary-color: #dad9d8; 
 }
-/*** Form styling ***/
+/*** general styling ***/
+
+ul li{
+    cursor: pointer;
+    list-style-type: none;
+    transition: .2s;
+}
 
 button{
     color: var(--dark-text-color);
@@ -77,8 +83,9 @@ button{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    padding-inline: 10px;
+    padding-inline: 6px;
     margin-left: 5px;
+    font-size: .9rem;
 }
 
 button:hover{

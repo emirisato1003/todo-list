@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const StyledForm = styled.form`
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     margin-top: .5em;
     gap: 1.6em;

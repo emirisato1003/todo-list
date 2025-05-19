@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
 const StyledForm = styled.form`
+    display: flex;
     margin-block: 2em;
     input{
     border-bottom: 1px solid oklch(96.7% 0.003 264.542);

@@ -1,16 +1,17 @@
 .todoListItem{
     padding: 5px;
+    transition: all .3s ease;
 }
 
 .editingForm{
     display: flex;
+    text-wrap: wrap;
 }
 
 .todoListItem form{
     background-color:oklch(96.7% 0.003 264.542);
     padding: 1em;
     border-radius: 5px;
-    min-width: 600px;
 }
 
 .todoListItem form:hover{
@@ -20,8 +21,15 @@
 }
 
 .todoListItem .cancel{
+    display: flex;
+    align-items: center;
+    gap: 2px;
     background-color: #e63946;
     color: #f1f1f1;
+}
+
+.icon{
+    font-size: 1rem;
 }
 
 .todoListItem .cancel:hover{
@@ -29,6 +37,9 @@
 }
 
 .todoListItem .update{
+    display: flex;
+    align-items: center;
+    gap: 2px;
     background-color: #b3e6ff;
 }
 

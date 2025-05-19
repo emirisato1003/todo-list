@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import TextInputWithLabel from "../../shared/TextInputWithLabel";
 import styles from "./TodoListItem.module.css";
 
+import { TbCancel } from "react-icons/tb";
+import { LuPencilLine } from "react-icons/lu";
+
 function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
     const [isEditing, setIsEditing] = useState(false);
     const [workingTitle, setWorkingTitle] = useState(todo.title);
@@ -33,8 +36,8 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
                 {isEditing ?
                     <div className={styles.editingForm}>
                         <TextInputWithLabel value={workingTitle} onChange={handleEdit} />
-                        <button onClick={handleCancel} className={styles.cancel}>Cancel</button>
-                        <button onClick={handleUpdate} className={styles.update}>Update</button>
+                        <button onClick={handleCancel} className={styles.cancel}>Cancel<TbCancel className={styles.icon}/></button>
+                        <button onClick={handleUpdate} className={styles.update}>Update<LuPencilLine className={styles.icon}/></button>
                     </div>
                     :
                     <>

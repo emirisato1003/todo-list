@@ -23,6 +23,7 @@
 .isCompleted img{
     margin: 1em;
     width: auto;
+    height: 250px;
 }
 
 .isCompleted p{
