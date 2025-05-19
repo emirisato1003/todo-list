@@ -36,6 +36,7 @@ hr{
 .error p{
     margin-bottom: 6px;
     color:  #f1bc94;
+    font-size: 1.1rem;
 }
 
 .error button{

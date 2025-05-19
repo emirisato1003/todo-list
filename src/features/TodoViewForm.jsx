@@ -5,6 +5,7 @@ const StyledForm = styled.form`
     display: flex;
     justify-content: space-between;
     margin-top: .5em;
+    gap: 1.6em;
 `;
 const StyledSearch = styled.div`
     label{

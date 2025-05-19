@@ -100,7 +100,7 @@ function App() {
       ]
     };
     const options = getOptions('POST', payload);
-    const { success, records, error } = await apiRequest(encodeUrl(), options, () => setIsSaving(true), () => setIsSaving(false));
+    const { success, records, error } = await apiRequest(encodeUrl(), options, () => setIsLoading(true), () => setIsLoading(false));
     success && setTodoList(prevTodo => {
       const savedTodo = {
         id: records[0].id,
