@@ -219,8 +219,12 @@ function App() {
       {errorMessage && shownError &&
         <>
           <hr />
-          <p>{errorMessage}</p>
-          <button onClick={() => setShownError(prev => !prev)}>Dismiss</button>
+          <div className={styles.error}>
+            <div className={styles.content}>
+              <p>{errorMessage}</p>
+            </div>
+            <div className={styles.actions}><button onClick={() => setShownError(prev => !prev)}>Dismiss</button></div>
+          </div>
         </>
       }
     </div>

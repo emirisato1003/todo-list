@@ -17,3 +17,27 @@ hr{
     height: 1px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(228, 221, 221, 0.75), rgba(0, 0, 0, 0));
 }
+
+.error{
+    border: 1px dashed #92400E;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .6em;
+    border-radius: 6px;
+    gap: 6px;
+}
+
+.error::before{
+    content: url(./assets/icons/prohibition.png);
+}
+
+.error p{
+    margin-bottom: 6px;
+    color:  #f1bc94;
+}
+
+.error button{
+    border-radius: 20px;
+}
