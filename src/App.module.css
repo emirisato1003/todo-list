@@ -1,5 +1,7 @@
 .body{
-    padding: 2.5em;
+    max-width: 600px;
+    margin: 0 auto;
+    /* padding: 2.5em; */
 }
 
 .body h1{
