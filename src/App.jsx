@@ -78,10 +78,10 @@ function App() {
       }
       return todo;
     }));
-    if (!success) {
-      setErrorMessage(error);
-      setShownError(true);
-    }
+    // if (!success) {
+    //   setErrorMessage(error);
+    //   setShownError(true);
+    // }
   };
 
   useEffect(() => {
