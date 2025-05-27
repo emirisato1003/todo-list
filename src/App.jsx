@@ -54,9 +54,11 @@ const getOptions = (method, payload) => {
 const SortContext = createContext();
 
 function App() {
-  // State management using useReducer
+  // useReducer
   const [todoState, dispatch] = useReducer(todosReducer, initialTodoState);
   const [sortState, sortDispatch] = useReducer(sortReducer, initialSortState);
+  
+  // useRef
   // *** additional system: scrolling down when error message shows up ***
   const errorSection = useRef(null);
 
