@@ -1,10 +1,19 @@
+import styled from "styled-components";
 
-export default function TextInputWithLabel({elementId, labelText, onChange, ref, value}) {
-    // console.log(elementId);
+const StyledLabel = styled.label`
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.1rem;
+`;
+const StyledInput = styled.input`
+    flex: 1;
+    min-width: 0;
+`
+export default function TextInputWithLabel({ elementId, labelText, onChange, ref, value }) {
     return (
         <>
-            <label htmlFor={elementId}>{labelText}</label>
-            <input type="text" id={elementId} ref={ref} onChange={onChange} value={value} autoComplete="off" />
+            <StyledLabel htmlFor={elementId}>{labelText}</StyledLabel>
+            <StyledInput type="text" id={elementId} ref={ref} onChange={onChange} value={value} placeholder={value ? value: "New todo"} autoComplete="off" />
         </>
     );
 }

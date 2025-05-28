@@ -1,14 +1,18 @@
 import TodoListItem from "./TodoListItem";
+import styles from "./TodoList.module.css";
+import illustration from "../../assets/images/task-concept-illustration/Checklist-bro.png"
 
 function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
-    // console.log(todoList);
     const filteredTodoList = todoList.filter(todo => !todo.isCompleted);
-    // console.log(todoList);
-    // console.log(filteredTodoList);
+
     return (
-        <>
+        <div className={styles.todoList}>
             {todoList.filter(todo => todo.isCompleted === false).length === 0 ?
-                isLoading ? <p>Todo list is loading...</p> : <p>Add Task to My Todo✏️</p>
+                isLoading ? <p>Todo list is loading...</p> : 
+                <div className={styles.isCompleted}>
+                    <img src={illustration} />
+                    <p>Add Task to My Todo✏️</p>
+                </div>
                 : <ul>
                     {filteredTodoList.map((todo) => {
                         return (
@@ -16,10 +20,8 @@ function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
                         );
                     })}
                 </ul>}
-        </>
+        </div>
     );
 }
 
 export default TodoList;
-
-//todoList.filter(todo => todo.isCompleted === false).length === 0

@@ -1,0 +1,71 @@
+.todoListItem{
+    padding: 5px;
+    transition: all .3s ease;
+}
+
+.editingForm{
+    display: flex;
+    text-wrap: wrap;
+}
+
+.todoListItem form{
+    background-color:oklch(96.7% 0.003 264.542);
+    padding: 1em;
+    border-radius: 5px;
+}
+
+.todoListItem form:hover{
+    border-left: 5px solid var(--accent-color);
+    border-radius: 0 5px 5px 0;
+
+}
+
+.todoListItem .cancel{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background-color: #e63946;
+    color: #f1f1f1;
+}
+
+.icon{
+    font-size: 1rem;
+}
+
+.todoListItem .cancel:hover{
+    background-color: #e6666e;
+}
+
+.todoListItem .update{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background-color: #b3e6ff;
+}
+
+.todoListItem .update:hover{
+    background-color: #c3dceb;
+}
+
+.todoListItem span{
+    cursor: pointer;
+}
+
+input[type='checkbox']{
+    transform: scale(1.5);
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+input[type='checkbox']:hover::after{
+    content: '✓';
+    font-weight: 600;
+    position: absolute;
+    transform: translate(1.8px,-1px);
+    font-size: .7rem;
+    color: green;
+}
+
+input[type='checkbox']:checked{
+    background-color: lightgreen;
+}
