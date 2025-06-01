@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useReducer, createContext, useRef } from 'react';
+import { useEffect, useState, useCallback, useReducer, useRef } from 'react';
 
 import TodoList from './features/TodoList/TodoList';
 import TodoForm from './features/TodoForm';
@@ -14,6 +14,7 @@ import {
   reducer as sortReducer,
   initialState as initialSortState
 } from './reducers/sort.reducer';
+import TodosPage from './pages/TodosPage';
 
 // --- Airtable API config ---
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -50,14 +51,11 @@ const getOptions = (method, payload) => {
   return options;
 };
 
-// --- Context ---
-const SortContext = createContext();
-
 function App() {
   // useReducer
   const [todoState, dispatch] = useReducer(todosReducer, initialTodoState);
   const [sortState, sortDispatch] = useReducer(sortReducer, initialSortState);
-  
+
   // useRef
   // *** additional system: scrolling down when error message shows up ***
   const errorSection = useRef(null);
@@ -163,7 +161,7 @@ function App() {
   return (
     <div className={styles.body}>
       <h1>My Todos</h1>
-      <TodoForm onAddTodo={handleAddTodo} isSaving={todoState.isSaving} />
+      {/* <TodoForm onAddTodo={handleAddTodo} isSaving={todoState.isSaving} />
       <TodoList
         todoList={todoState.todoList}
         onCompleteTodo={onCompleteTodo}
@@ -172,7 +170,15 @@ function App() {
       <hr />
       <SortContext.Provider value={{ sortState, sortDispatch }}>
         <TodoViewForm />
-      </SortContext.Provider>
+      </SortContext.Provider> */}
+      <TodosPage
+        handleAddTodo={handleAddTodo}
+        todoState={todoState}
+        onCompleteTodo={onCompleteTodo}
+        updateTodo={updateTodo}
+        sortState={sortState}
+        sortDispatch={sortDispatch}
+      />
       {todoState.errorMessage &&
         <>
           <hr />
@@ -188,6 +194,4 @@ function App() {
   );
 };
 
-
-export { SortContext };
 export default App;
