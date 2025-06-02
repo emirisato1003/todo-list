@@ -10,7 +10,7 @@ export default function Header() {
         const path = location.pathname;
         if (path === '/') {
             setTitle('Todo List');
-        } else if (path === 'about') {
+        } else if (path === '/about') {
             setTitle('About');
         } else {
             setTitle('Not Found');

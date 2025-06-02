@@ -17,6 +17,8 @@ import {
 import TodosPage from './pages/TodosPage';
 import Header from './shared/Header';
 import { Route, Routes } from 'react-router';
+import About from './pages/About';
+import NotFound from './pages/NotFound';
 
 // --- Airtable API config ---
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -172,8 +174,8 @@ function App() {
           sortState={sortState}
           sortDispatch={sortDispatch}
         />} />
-        <Route path='/about' element={<h1>About</h1>} />
-        <Route path="/*" element={<h1>Not Found</h1>} />
+        <Route path='/about' element={<About />} />
+        <Route path="/*" element={<NotFound />} />
 
       </Routes>
       {todoState.errorMessage &&
