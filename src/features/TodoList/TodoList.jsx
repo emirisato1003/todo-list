@@ -3,8 +3,8 @@ import styles from "./TodoList.module.css";
 import illustration from "../../assets/images/task-concept-illustration/Checklist-bro.png"
 
 function TodoList({ todoList, onCompleteTodo, onUpdateTodo, isLoading }) {
+    // console.log(todoList)
     const filteredTodoList = todoList.filter(todo => !todo.isCompleted);
-
     return (
         <div className={styles.todoList}>
             {todoList.filter(todo => todo.isCompleted === false).length === 0 ?

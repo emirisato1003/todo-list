@@ -30,7 +30,6 @@ const StyledButton = styled.button`
 function TodoForm({ onAddTodo }) {
     const todoTitleInput = useRef();
     const [workingTodo, setWorkingTodo] = useState('');
-    console.log(Boolean(!workingTodo));
     function handleAddTodo(event) {
         event.preventDefault();
         onAddTodo(workingTodo);

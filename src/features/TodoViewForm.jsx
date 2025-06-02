@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { SortContext } from "../App";
+import { ACTIONS as SORT_ACTIONS } from "../reducers/sort.reducer";
 import styled from "styled-components";
 
 const StyledForm = styled.form`
@@ -45,14 +47,15 @@ const StyledSortForm = styled.div`
     select{
     border-radius: 6px;
     }
-`
+`;
 
-function TodoViewForm({ sortDirection, setSortDirection, sortField, setSortField, queryString, setQueryString }) {
-    const [localQueryString, setLocalQueryString] = useState(queryString);
+function TodoViewForm() {
+    const { sortState, sortDispatch } = useContext(SortContext);
+    const [localQueryString, setLocalQueryString] = useState(sortState.queryString);
 
     useEffect(() => {
         const debounce = setTimeout(() => {
-            setQueryString(localQueryString);
+            sortDispatch({ type: SORT_ACTIONS.SET_QUERY_STRING, localQueryString });
         }, 500);
         return () => {
             clearTimeout(debounce);
@@ -62,7 +65,6 @@ function TodoViewForm({ sortDirection, setSortDirection, sortField, setSortField
     const preventRefresh = (e) => {
         e.preventDefault();
     };
-    // console.log(queryString);
     return (
         <StyledForm onSubmit={preventRefresh}>
             <StyledSearch>
@@ -75,14 +77,14 @@ function TodoViewForm({ sortDirection, setSortDirection, sortField, setSortField
             <StyledSort>
                 <StyledSortForm>
                     <label htmlFor="sortBy">Sort By</label>
-                    <select onChange={(e) => setSortField(e.target.value)} value={sortField} id="sortBy">
+                    <select onChange={(e) => sortDispatch({ type: SORT_ACTIONS.SET_SORT_FILED, value: e.target.value })} value={sortState.sortField} id="sortBy">
                         <option value="title">Title</option>
                         <option value="createdTime">Time added</option>
                     </select>
                 </StyledSortForm>
                 <StyledSortForm>
                     <label htmlFor="direction">Direction</label>
-                    <select onChange={(e) => setSortDirection(e.target.value)} value={sortDirection} id="direction">
+                    <select onChange={(e) => sortDispatch({ type: SORT_ACTIONS.SET_SORT_DIRECTION, value: e.target.value })} value={sortState.sortDirection} id="direction">
                         <option value="desc">Descending</option>
                         <option value="asc">Ascending</option>
                     </select>
