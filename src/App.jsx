@@ -15,6 +15,8 @@ import {
   initialState as initialSortState
 } from './reducers/sort.reducer';
 import TodosPage from './pages/TodosPage';
+import Header from './shared/Header';
+import { Route, Routes } from 'react-router';
 
 // --- Airtable API config ---
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -160,25 +162,20 @@ function App() {
 
   return (
     <div className={styles.body}>
-      <h1>My Todos</h1>
-      {/* <TodoForm onAddTodo={handleAddTodo} isSaving={todoState.isSaving} />
-      <TodoList
-        todoList={todoState.todoList}
-        onCompleteTodo={onCompleteTodo}
-        onUpdateTodo={updateTodo}
-        isLoading={todoState.isLoading} />
-      <hr />
-      <SortContext.Provider value={{ sortState, sortDispatch }}>
-        <TodoViewForm />
-      </SortContext.Provider> */}
-      <TodosPage
-        handleAddTodo={handleAddTodo}
-        todoState={todoState}
-        onCompleteTodo={onCompleteTodo}
-        updateTodo={updateTodo}
-        sortState={sortState}
-        sortDispatch={sortDispatch}
-      />
+      <Header />
+      <Routes>
+        <Route path='/' element={<TodosPage
+          handleAddTodo={handleAddTodo}
+          todoState={todoState}
+          onCompleteTodo={onCompleteTodo}
+          updateTodo={updateTodo}
+          sortState={sortState}
+          sortDispatch={sortDispatch}
+        />} />
+        <Route path='/about' element={<h1>About</h1>} />
+        <Route path="/*" element={<h1>Not Found</h1>} />
+
+      </Routes>
       {todoState.errorMessage &&
         <>
           <hr />
