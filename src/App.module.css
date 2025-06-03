@@ -1,11 +1,9 @@
 .body{
-    max-width: 600px;
+    max-width: 1000px;
     margin: 0 auto;
-    /* padding: 2.5em; */
 }
 
 .body h1{
-    margin-bottom: 1em;
     text-transform:uppercase;
     letter-spacing: 5px;
 }
@@ -21,8 +19,8 @@ hr{
 }
 
 .error{
-    border: 1px dashed #92400E;
-    margin-top: 1em;
+    border: 4px dashed #b1390a;
+    margin-block: 1.5em;
     display: flex;
     flex-direction: column;
     align-items: center;

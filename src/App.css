@@ -74,7 +74,7 @@ p {
 
 button{
     color: var(--dark-text-color);
-    background-color:var(--primary-color);
+    background-color:var(--accent-color);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -83,8 +83,17 @@ button{
     font-size: .9rem;
 }
 
+button:disabled{
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+button:disabled:hover{
+    background-color: gray;
+}
+
 button:hover{
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
 }
 
 input{

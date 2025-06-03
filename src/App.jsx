@@ -19,6 +19,7 @@ import Header from './shared/Header';
 import { Route, Routes } from 'react-router';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
+import Footer from './shared/Footer';
 
 // --- Airtable API config ---
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -109,7 +110,7 @@ function App() {
     const { success, records, error } = await apiRequest(encodeUrl(), options, () => dispatch({ type: TODO_ACTIONS.START_REQUEST }), () => dispatch({ type: TODO_ACTIONS.END_REQUEST }));
     success && dispatch({ type: TODO_ACTIONS.ADD_TODO, records: records });
     if (!success) {
-      dispatch({ type: TODO_ACTIONS.SET_LOAD_ERROR, error: error });
+      dispatch({ type: TODO_ACTIONS.SET_LOAD_ERROR, error: {message: error} });
     }
   };
 
@@ -165,6 +166,7 @@ function App() {
   return (
     <div className={styles.body}>
       <Header />
+      <hr/>
       <Routes>
         <Route path='/' element={<TodosPage
           handleAddTodo={handleAddTodo}
@@ -189,6 +191,8 @@ function App() {
           </div>
         </>
       }
+      <hr />
+      <Footer />
     </div>
   );
 };

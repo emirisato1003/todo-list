@@ -1,0 +1,11 @@
+
+.todosPage{
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+    .todosPage{
+        max-width: 400px;
+    }
+}
