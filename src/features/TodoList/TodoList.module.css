@@ -31,3 +31,14 @@
     font-weight: 200;
     margin-bottom: 1em;
 }
+
+.paginationControls{
+    margin-top: 1em;
+    justify-self: center;
+}
+.paginationControls button{
+    margin-inline: 7px;
+}
+.paginationControls span{
+    color: var(--primary-text-color);
+}

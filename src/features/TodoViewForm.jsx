@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { SortContext } from "../App";
+import { SortContext } from "../pages/TodosPage";
 import { ACTIONS as SORT_ACTIONS } from "../reducers/sort.reducer";
 import styled from "styled-components";
 

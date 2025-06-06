@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useReducer, createContext, useRef } from 'react';
+import { useEffect, useState, useCallback, useReducer, useRef } from 'react';
 
 import TodoList from './features/TodoList/TodoList';
 import TodoForm from './features/TodoForm';
@@ -14,6 +14,12 @@ import {
   reducer as sortReducer,
   initialState as initialSortState
 } from './reducers/sort.reducer';
+import TodosPage from './pages/TodosPage';
+import Header from './shared/Header';
+import { Route, Routes } from 'react-router';
+import About from './pages/About';
+import NotFound from './pages/NotFound';
+import Footer from './shared/Footer';
 
 // --- Airtable API config ---
 const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -50,14 +56,11 @@ const getOptions = (method, payload) => {
   return options;
 };
 
-// --- Context ---
-const SortContext = createContext();
-
 function App() {
   // useReducer
   const [todoState, dispatch] = useReducer(todosReducer, initialTodoState);
   const [sortState, sortDispatch] = useReducer(sortReducer, initialSortState);
-  
+
   // useRef
   // *** additional system: scrolling down when error message shows up ***
   const errorSection = useRef(null);
@@ -107,7 +110,7 @@ function App() {
     const { success, records, error } = await apiRequest(encodeUrl(), options, () => dispatch({ type: TODO_ACTIONS.START_REQUEST }), () => dispatch({ type: TODO_ACTIONS.END_REQUEST }));
     success && dispatch({ type: TODO_ACTIONS.ADD_TODO, records: records });
     if (!success) {
-      dispatch({ type: TODO_ACTIONS.SET_LOAD_ERROR, error: error });
+      dispatch({ type: TODO_ACTIONS.SET_LOAD_ERROR, error: {message: error} });
     }
   };
 
@@ -162,17 +165,21 @@ function App() {
 
   return (
     <div className={styles.body}>
-      <h1>My Todos</h1>
-      <TodoForm onAddTodo={handleAddTodo} isSaving={todoState.isSaving} />
-      <TodoList
-        todoList={todoState.todoList}
-        onCompleteTodo={onCompleteTodo}
-        onUpdateTodo={updateTodo}
-        isLoading={todoState.isLoading} />
-      <hr />
-      <SortContext.Provider value={{ sortState, sortDispatch }}>
-        <TodoViewForm />
-      </SortContext.Provider>
+      <Header />
+      <hr/>
+      <Routes>
+        <Route path='/' element={<TodosPage
+          handleAddTodo={handleAddTodo}
+          todoState={todoState}
+          onCompleteTodo={onCompleteTodo}
+          updateTodo={updateTodo}
+          sortState={sortState}
+          sortDispatch={sortDispatch}
+        />} />
+        <Route path='/about' element={<About />} />
+        <Route path="/*" element={<NotFound />} />
+
+      </Routes>
       {todoState.errorMessage &&
         <>
           <hr />
@@ -184,10 +191,10 @@ function App() {
           </div>
         </>
       }
+      <hr />
+      <Footer />
     </div>
   );
 };
 
-
-export { SortContext };
 export default App;
